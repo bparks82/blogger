@@ -1,6 +1,6 @@
 <h1><%= @article.title %></h1>
 <p>Tags: <%= tag_links(@article.tags) %></p>
-
+<%= debug @article %>
 <p><%= @article.body %></p>
 
 <% if @article.image_file_name %>
@@ -20,3 +20,5 @@
 
   <%= link_to "delete", article_path(@article), :method => :delete, :confirm => "Really delete the article?" %>
 <% end %>
+<%= d @article %>
+<%= d @articles %>

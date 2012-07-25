@@ -1,4 +1,5 @@
 class ArticlesController < ApplicationController
+  include Kernel
   before_filter :require_login, :except => [:index, :show]
   
   def index
@@ -7,6 +8,7 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find(params[:id])
+    audit @article.inspect
   end
 
   def new
@@ -15,7 +17,7 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.new(params[:article])
-
+    audit @article.inspect
     @article.save
 
     redirect_to article_path(@article)
@@ -23,7 +25,7 @@ class ArticlesController < ApplicationController
 
   def destroy
     @article = Article.find(params[:id])
-
+    audit @article.inspect
     @article.destroy
 
     redirect_to articles_path
@@ -36,7 +38,7 @@ class ArticlesController < ApplicationController
   def update
     @article = Article.find(params[:id])
     @article.update_attributes(params[:article])
-
+    audit @article.inspect
     flash[:message] = "Article '#{@article.title}' Updated!"
 
     redirect_to article_path(@article)
