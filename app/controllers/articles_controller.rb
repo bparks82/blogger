@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  include Kernel
+  #include Kernel
   before_filter :require_login, :except => [:index, :show]
   
   def index
@@ -8,7 +8,7 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find(params[:id])
-    audit @article.inspect
+    #audit @article.inspect
   end
 
   def new
@@ -16,8 +16,12 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    @article = Article.new(params[:article])
-    audit @article.inspect
+   #legit way
+   # @article = Article.new(params[:article])
+   #bush-league way
+    @article = Article.new(:title => params[:article][:title],
+                           :tag_list => params[:article][:tag_list],
+                           :body => params[:article][:body])
     @article.save
 
     redirect_to article_path(@article)
@@ -25,7 +29,7 @@ class ArticlesController < ApplicationController
 
   def destroy
     @article = Article.find(params[:id])
-    audit @article.inspect
+    #audit @article.inspect
     @article.destroy
 
     redirect_to articles_path
@@ -38,7 +42,7 @@ class ArticlesController < ApplicationController
   def update
     @article = Article.find(params[:id])
     @article.update_attributes(params[:article])
-    audit @article.inspect
+    #audit @article.inspect
     flash[:message] = "Article '#{@article.title}' Updated!"
 
     redirect_to article_path(@article)
